@@ -8,6 +8,22 @@ app = FastAPI(title="LangGraph Food Services Skeleton")
 services = get_service_registry()
 agent = Agent(services)
 
+CURL_EXAMPLES = [
+    "curl http://localhost:8000/health",
+    "curl http://localhost:8000/services",
+    "curl http://localhost:8000/catalog/categories",
+    "curl \"http://localhost:8000/catalog/menu?category_id=breakfast\"",
+    "curl -X POST http://localhost:8000/order/create -H \"Content-Type: application/json\" -d '{\"customer_id\":\"cust-123\",\"items\":[\"item-1\",\"item-2\"]}'",
+    "curl -X PUT http://localhost:8000/order/order-123/status -H \"Content-Type: application/json\" -d '{\"status\":\"completed\"}'",
+    "curl http://localhost:8000/order/history/cust-123",
+    "curl -X POST http://localhost:8000/agent/ask -H \"Content-Type: application/json\" -d '{\"prompt\":\"What can I order?\",\"context\":{\"customer_id\":\"cust-123\"}}'",
+]
+
+
+@app.get("/curl")
+def curl_commands():
+    return {"curl_commands": CURL_EXAMPLES}
+
 
 @app.get("/health")
 def health():
